@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ScoreDisplay extends StatelessWidget {
   final int score;
-  ScoreDisplay(this.score);
+  const ScoreDisplay(this.score, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +16,7 @@ class ScoreDisplay extends StatelessWidget {
         child: Text(
           "Score\n$score",
           textAlign: TextAlign.center,
-          style: (TextStyle(
+          style: (const TextStyle(
             color: Colors.white,
           )),
         ));

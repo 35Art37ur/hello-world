@@ -4,7 +4,7 @@ import 'game.dart';
 
 class UserInput extends StatelessWidget {
   final Function onActionButtonPressed;
-  UserInput(this.onActionButtonPressed);
+  const UserInput(this.onActionButtonPressed, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(

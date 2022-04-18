@@ -37,7 +37,7 @@ Widget getTetrisPoint(Color color) {
   return Container(
     width: POINT_SIZE,
     height: POINT_SIZE,
-    decoration: new BoxDecoration(
+    decoration: BoxDecoration(
       color: color,
       shape: BoxShape.rectangle,
     ),

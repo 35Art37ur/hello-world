@@ -12,11 +12,11 @@ class AlivePoint extends Point {
   bool checkIfPointsCollide(List<Point> pointList) {
     bool retVal = false;
 
-    pointList.forEach((pointToCheck) {
+    for (var pointToCheck in pointList) {
       if (pointToCheck.x == x && pointToCheck.y == y - 1) {
         retVal = true;
       }
-    });
+    }
 
     return retVal;
   }

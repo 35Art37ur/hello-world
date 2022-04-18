@@ -20,7 +20,7 @@ const int BOARD_HEIGHT = 20;
 const double POINT_SIZE = 20; //angabe in Px
 
 const int GAME_SPEED = 400; // spielgeschwindigkeit
-Timer timer = Timer(Duration(milliseconds: 1), () {});
+Timer timer = Timer(const Duration(milliseconds: 1), () {});
 
 class Game extends StatefulWidget {
   const Game({Key? key}) : super(key: key);
@@ -52,8 +52,8 @@ class _Game extends State<Game> {
     setState(() {
       currentBlock = getRamdomBlock();
     });
-    timer = new Timer.periodic(
-      new Duration(milliseconds: GAME_SPEED),
+    timer = Timer.periodic(
+      const Duration(milliseconds: GAME_SPEED),
       onTimeTick,
     );
   }
@@ -84,23 +84,23 @@ class _Game extends State<Game> {
   }
 
   void safeOldBlock() {
-    currentBlock.fixed_length_list_of_points.forEach((point) {
+    for (var point in currentBlock.fixed_length_list_of_points) {
       AlivePoint newPoint = AlivePoint(point.x, point.y, currentBlock.color);
       setState(() {
         alivePoints.add(newPoint);
       });
-    });
+    }
   }
 
   bool isAboveOldBlock() {
     bool retVal = false;
 
-    alivePoints.forEach((oldPoint) {
+    for (var oldPoint in alivePoints) {
       if (oldPoint
           .checkIfPointsCollide(currentBlock.fixed_length_list_of_points)) {
         retVal = true;
       }
-    });
+    }
 
     return retVal;
   }
@@ -109,11 +109,11 @@ class _Game extends State<Game> {
     setState(() {
       alivePoints.removeWhere((point) => point.y == row);
 
-      alivePoints.forEach((point) {
+      for (var point in alivePoints) {
         if (point.y < row) {
           point.y += 1;
         }
-      });
+      }
       score += 1;
     });
   }
@@ -123,11 +123,11 @@ class _Game extends State<Game> {
       //kontrolliert alle Reichen von oben nach unten
       int counter = 0;
 
-      alivePoints.forEach((point) {
+      for (var point in alivePoints) {
         if (point.y == currentRow) {
           counter++;
         }
-      });
+      }
       if (counter >= BOARD_WIDTH) {
         //entferne currentRow
         removeRow(currentRow);
@@ -138,16 +138,16 @@ class _Game extends State<Game> {
   bool playerLost() {
     bool retVal = false;
 
-    alivePoints.forEach((element) {
+    for (var element in alivePoints) {
       if (element.y <= 0) {
         retVal = true;
       }
-    });
+    }
     return retVal;
   }
 
   void onTimeTick(Timer time) {
-    if (currentBlock == null || playerLost()) return;
+    if (/*currentBlock == null ||*/ playerLost()) return;
 
 //entferne volle Reihe
     removeFullRows();
@@ -168,21 +168,21 @@ class _Game extends State<Game> {
   }
 
   Widget? drawTetrisBlocks() {
-    if (currentBlock == null) return null;
+    //  if (currentBlock == null) return null; currentBlock kann nicht null sein, noch nicht..
     List<Positioned> visiblePoints = [];
 
     //aktueller BLock
-    currentBlock.fixed_length_list_of_points.forEach((point) {
+    for (var point in currentBlock.fixed_length_list_of_points) {
       Positioned newPoint = Positioned(
         child: getTetrisPoint(currentBlock.color),
         left: point.x * POINT_SIZE,
         top: point.y * POINT_SIZE,
       );
       visiblePoints.add(newPoint);
-    });
+    }
 
 //oldBlock
-    alivePoints.forEach((point) {
+    for (var point in alivePoints) {
       visiblePoints.add(
         Positioned(
           child: getTetrisPoint(point.color),
@@ -190,7 +190,7 @@ class _Game extends State<Game> {
           top: point.y * POINT_SIZE,
         ),
       );
-    });
+    }
 
     return Stack(
       children: visiblePoints,
